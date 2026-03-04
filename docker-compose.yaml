@@ -1,0 +1,23 @@
+services:
+
+  backend:
+    build: ./app
+    container_name: inventory_backend
+    environment:
+      REDIS_HOST: redis
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:latest
+    container_name: inventory_cache
+
+  nginx:
+    image: nginx:latest
+    container_name: inventory_proxy
+    ports:
+      - "8084:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend
