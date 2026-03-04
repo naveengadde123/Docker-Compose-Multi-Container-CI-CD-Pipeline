@@ -1,19 +1,23 @@
 pipeline {
-    agent any
+    agent { label 'ubuntu-agent' }
 
     stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/naveengadde123/Docker-Compose-Multi-Container-CI-CD-Pipeline'
+            }
+        }
 
         stage('Build Docker Images') {
             steps {
-                bat 'docker compose build'
+                sh 'docker compose build'
             }
         }
 
         stage('Run Containers') {
             steps {
-                bat 'docker compose up -d'
+                sh 'docker compose up -d'
             }
         }
-
     }
 }
